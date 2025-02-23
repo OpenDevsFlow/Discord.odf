@@ -1,0 +1,73 @@
+{
+  "name": "discord.odf",
+  "version": "3.0.0",
+  "description": "A comprehensive wrapper package for discord.js with dual module support and TypeScript definitions",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/esm.ts src/cjs.ts --format esm,cjs --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "dev": "tsup src/index.ts src/esm.ts src/cjs.ts --format esm,cjs --dts --watch",
+    "lint": "eslint src tests --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenDevsFlow/Discord.odf.git"
+  },
+  "keywords": [
+    "discord.odf",
+    "discord",
+    "discord.js",
+    "wrapper",
+    "typescript",
+    "esm",
+    "cjs",
+    "dual-module"
+  ],
+  "author": "OpenDevsFlow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OpenDevsFlow/Discord.odf/issues"
+  },
+  "homepage": "https://github.com/OpenDevsFlow/Discord.odf#readme",
+  "dependencies": {
+    "discord.js": "^14.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.6"
+  },
+  "peerDependencies": {
+    "discord.js": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=16.9.0"
+  }
+}

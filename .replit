@@ -1,0 +1,123 @@
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Tests"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Build"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Build and Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Full Test Suite"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Test Color Fix"
+
+[[workflows.workflow]]
+name = "Run Tests"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx vitest run --reporter verbose"
+
+[[workflows.workflow]]
+name = "Build"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsup src/index.ts src/esm.ts src/cjs.ts --format esm,cjs --dts"
+
+[[workflows.workflow]]
+name = "Build and Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsup src/index.ts src/esm.ts src/cjs.ts --format esm,cjs --dts && npx vitest run --reporter verbose"
+
+[[workflows.workflow]]
+name = "Full Test Suite"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsup && npx vitest run --reporter verbose"
+
+[[workflows.workflow]]
+name = "Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx vitest run --reporter verbose"
+
+[[workflows.workflow]]
+name = "Test Color Fix"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx vitest run tests/embed.test.ts --reporter verbose"
+
+[deployment]
+run = ["sh", "-c", "npx vitest run --reporter verbose"]
